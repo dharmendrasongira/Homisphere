@@ -39,12 +39,14 @@
     flex-wrap: wrap;
     gap: 20px;
 
-    button {
-      width: 100px;
+    button{
+      width: max-content;
       padding: 10px;
       border: none;
       cursor: pointer;
-      background-color: #fece51;
+      background-color: #a9b8eb;
+      border-radius: 50px;
+
 
       img {
         width: 24px;

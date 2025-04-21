@@ -1,31 +1,33 @@
-import { useState } from "react";
-import "./navbar.scss";
+import { useState, useContext } from "react";
+import "./navbar.css";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/Authcontext";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const { currentUser } = useContext(AuthContext);
 
-  const user = true;
   return (
     <nav>
       <div className="left">
-        <a href="/" className="logo">
-          <img src="/logo.png" alt="" />
+        <Link to="/" className="logo">
+          <img src="/logo.png" alt="Logo" />
           <span>LamaEstate</span>
-        </a>
-        <a href="/">Home</a>
-        <a href="/">About</a>
-        <a href="/">Contact</a>
-        <a href="/">Agents</a>
+        </Link>
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+        <Link to="/contact">Contact</Link>
+        <Link to="/agents">Agents</Link>
       </div>
+
       <div className="right">
-        {user ? (
+        {currentUser ? (
           <div className="user">
             <img
-              src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              alt=""
+              src={currentUser.profilePicture || "/person/noAvatar.png"}
+              alt="User Avatar"
             />
-            <span>John Doe</span>
+            <span>{currentUser.name}</span>
             <Link to="/profile" className="profile">
               <div className="notification">3</div>
               <span>Profile</span>
@@ -33,26 +35,30 @@ function Navbar() {
           </div>
         ) : (
           <>
-            <a href="/">Sign in</a>
-            <a href="/" className="register">
+            <Link to="/login">Sign in</Link>
+            <Link to="/register" className="bg-blue-300 rounded-xl">
               Sign up
-            </a>
+            </Link>
           </>
         )}
+
         <div className="menuIcon">
-          <img
-            src="/menu.png"
-            alt=""
-            onClick={() => setOpen((prev) => !prev)}
-          />
+          <img src="/menu.png" alt="Menu" onClick={() => setOpen((prev) => !prev)} />
         </div>
+
         <div className={open ? "menu active" : "menu"}>
-          <a href="/">Home</a>
-          <a href="/">About</a>
-          <a href="/">Contact</a>
-          <a href="/">Agents</a>
-          <a href="/">Sign in</a>
-          <a href="/">Sign up</a>
+          <Link to="/">Home</Link>
+          <Link to="/about">About</Link>
+          <Link to="/contact">Contact</Link>
+          <Link to="/agents">Agents</Link>
+          {currentUser ? (
+            <Link to="/profile">Profile</Link>
+          ) : (
+            <>
+              <Link to="/login">Sign in</Link>
+              <Link to="/register">Sign up</Link>
+            </>
+          )}
         </div>
       </div>
     </nav>
